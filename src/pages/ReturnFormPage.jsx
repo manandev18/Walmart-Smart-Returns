@@ -37,8 +37,8 @@ const ReturnFormPage = () => {
       const updatedImages = [...uploadedImages, ...images];
       setUploadedImages(updatedImages);
       
-      // Start AI analysis if we have 6 images or user is done uploading
-      if (updatedImages.length === 6 || updatedImages.length > 0) {
+      // Start AI analysis only when we have exactly 6 images
+      if (updatedImages.length === 6) {
         setTimeout(() => {
           startAIAnalysis(updatedImages);
         }, 500);
@@ -65,11 +65,10 @@ const ReturnFormPage = () => {
     const updatedImages = uploadedImages.filter(img => img.id !== imageId);
     setUploadedImages(updatedImages);
     
-    if (updatedImages.length === 0) {
-      setAiAnalysisComplete(false);
-      setDetectedCondition('');
-      setFormData(prev => ({ ...prev, condition: '', imageUploaded: false }));
-    }
+    // Reset AI analysis state when removing images
+    setAiAnalysisComplete(false);
+    setDetectedCondition('');
+    setFormData(prev => ({ ...prev, condition: '', imageUploaded: false }));
   };
 
   const handleSubmit = (e) => {
@@ -99,7 +98,7 @@ const ReturnFormPage = () => {
               Product Return Analysis
             </h1>
             <p className="text-blue-100 mt-2">
-              Upload product image and provide details for AI optimization
+              Upload exactly 6 product images and provide details for AI optimization
             </p>
           </div>
 
@@ -112,7 +111,7 @@ const ReturnFormPage = () => {
             >
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 <Camera className="w-4 h-4 inline mr-2" />
-                Product Images (Upload up to 6 images)
+                Product Images (Must upload exactly 6 images)
               </label>
               
               {/* Image Upload Area */}
@@ -126,6 +125,11 @@ const ReturnFormPage = () => {
                     <p className="text-gray-600 mb-4">
                       Click to upload product images ({uploadedImages.length}/6)
                     </p>
+                    {uploadedImages.length < 6 && (
+                      <p className="text-sm text-red-600 mb-4">
+                        All 6 images are required for AI analysis
+                      </p>
+                    )}
                     <input
                       type="file"
                       multiple
@@ -178,7 +182,21 @@ const ReturnFormPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {isAnalyzing ? (
+                  {uploadedImages.length < 6 ? (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                          <Camera className="w-5 h-5 text-yellow-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-yellow-800">Upload More Images</p>
+                          <p className="text-sm text-yellow-600">
+                            {6 - uploadedImages.length} more images needed for AI analysis
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : isAnalyzing ? (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                       <LoadingSpinner message="Analyzing images with AI..." />
                     </div>
@@ -190,7 +208,7 @@ const ReturnFormPage = () => {
                       <div>
                         <p className="font-medium text-green-800">AI Analysis Complete</p>
                         <p className="text-sm text-green-600">
-                          {uploadedImages.length} images analyzed successfully
+                          All 6 images analyzed successfully
                         </p>
                       </div>
                     </div>

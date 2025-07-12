@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ShoppingCart, Recycle, TrendingUp, Leaf, ArrowRight } from 'lucide-react';
+import { Heart, ShoppingCart, Recycle, TrendingUp, Leaf, ArrowRight, ChevronDown, ChevronUp, CheckCircle, AlertTriangle, X, Package, Trash2 } from 'lucide-react';
 import { mockAIDecisions } from '../data/mockData';
 
 const AIDecisionPage = () => {
@@ -9,8 +9,63 @@ const AIDecisionPage = () => {
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(true);
   const [decision, setDecision] = useState(null);
+  const [showAlternatives, setShowAlternatives] = useState(false);
   
   const { formData, decisionKey } = location.state || {};
+
+  // Mock alternative options data
+  const generateAlternativeOptions = (chosenAction, condition) => {
+    const allActions = ['resell', 'donate', 'recycle', 'dispose', 'restock'];
+    const alternatives = allActions.filter(action => action !== chosenAction);
+    
+    const alternativeData = {
+      resell: {
+        carbonSaved: 8.5,
+        estimatedProfit: 45,
+        operationalCost: 12,
+        reason: condition === 'unusable' ? 'Product condition too poor for resale' : 'Market demand too low',
+        score: condition === 'like-new' ? 85 : condition === 'minor-damage' ? 65 : 25,
+        status: condition === 'like-new' ? 'good' : condition === 'minor-damage' ? 'warning' : 'poor'
+      },
+      donate: {
+        carbonSaved: 12.3,
+        estimatedProfit: 0,
+        operationalCost: 8,
+        reason: 'Lower carbon impact than chosen option',
+        score: 78,
+        status: 'good'
+      },
+      recycle: {
+        carbonSaved: 15.2,
+        estimatedProfit: 5,
+        operationalCost: 15,
+        reason: 'Higher operational costs outweigh benefits',
+        score: 60,
+        status: 'warning'
+      },
+      dispose: {
+        carbonSaved: 0,
+        estimatedProfit: 0,
+        operationalCost: 25,
+        reason: 'Environmentally harmful, last resort only',
+        score: 15,
+        status: 'poor'
+      },
+      restock: {
+        carbonSaved: 20.1,
+        estimatedProfit: 85,
+        operationalCost: 5,
+        reason: condition === 'like-new' ? 'Minimal quality issues detected' : 'Product condition below restock standards',
+        score: condition === 'like-new' ? 90 : 35,
+        status: condition === 'like-new' ? 'good' : 'poor'
+      }
+    };
+
+    return alternatives.map(action => ({
+      action,
+      ...alternativeData[action]
+    }));
+  };
 
   useEffect(() => {
     if (!formData) {
@@ -31,6 +86,8 @@ const AIDecisionPage = () => {
       case 'donate': return Heart;
       case 'resell': return ShoppingCart;
       case 'recycle': return Recycle;
+      case 'dispose': return Trash2;
+      case 'restock': return Package;
       default: return Heart;
     }
   };
@@ -40,6 +97,8 @@ const AIDecisionPage = () => {
       case 'donate': return 'text-red-500';
       case 'resell': return 'text-green-500';
       case 'recycle': return 'text-blue-500';
+      case 'dispose': return 'text-gray-500';
+      case 'restock': return 'text-purple-500';
       default: return 'text-red-500';
     }
   };
@@ -49,7 +108,36 @@ const AIDecisionPage = () => {
       case 'donate': return 'bg-red-100';
       case 'resell': return 'bg-green-100';
       case 'recycle': return 'bg-blue-100';
+      case 'dispose': return 'bg-gray-100';
+      case 'restock': return 'bg-purple-100';
       default: return 'bg-red-100';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'good': return CheckCircle;
+      case 'warning': return AlertTriangle;
+      case 'poor': return X;
+      default: return AlertTriangle;
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'good': return 'text-green-500';
+      case 'warning': return 'text-yellow-500';
+      case 'poor': return 'text-red-500';
+      default: return 'text-yellow-500';
+    }
+  };
+
+  const getStatusBg = (status) => {
+    switch (status) {
+      case 'good': return 'bg-green-100';
+      case 'warning': return 'bg-yellow-100';
+      case 'poor': return 'bg-red-100';
+      default: return 'bg-yellow-100';
     }
   };
 
@@ -105,6 +193,62 @@ const AIDecisionPage = () => {
   if (!decision) return null;
 
   const ActionIcon = getActionIcon(decision.action);
+  const alternativeOptions = generateAlternativeOptions(decision.action, formData?.condition);
+
+  // Alternative Card Component
+  const AlternativeCard = ({ option }) => {
+    const OptionIcon = getActionIcon(option.action);
+    const StatusIcon = getStatusIcon(option.status);
+    
+    return (
+      <motion.div
+        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        whileHover={{ y: -2 }}
+      >
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center">
+            <div className={`p-3 ${getActionBg(option.action)} rounded-lg mr-3`}>
+              <OptionIcon className={`w-5 h-5 ${getActionColor(option.action)}`} />
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 capitalize">{option.action}</h4>
+              <p className="text-sm text-gray-500">Alternative Option</p>
+            </div>
+          </div>
+          <div className={`p-2 ${getStatusBg(option.status)} rounded-lg`}>
+            <StatusIcon className={`w-4 h-4 ${getStatusColor(option.status)}`} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <p className="text-sm text-gray-600">Carbon Impact</p>
+            <p className="font-semibold text-green-600">{option.carbonSaved} kg CO₂</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Est. Profit</p>
+            <p className="font-semibold text-blue-600">${option.estimatedProfit}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Op. Cost</p>
+            <p className="font-semibold text-gray-600">${option.operationalCost}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">AI Score</p>
+            <p className="font-semibold text-gray-900">{option.score}/100</p>
+          </div>
+        </div>
+
+        <div className="border-t pt-4">
+          <p className="text-sm text-gray-600 mb-2">Why not chosen:</p>
+          <p className="text-sm text-gray-800">{option.reason}</p>
+        </div>
+      </motion.div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -211,6 +355,90 @@ const AIDecisionPage = () => {
                   <p className="text-gray-600 mt-2">potential recovery</p>
                 </div>
               )}
+            </motion.div>
+
+            {/* Alternative Options Comparison Panel */}
+            <motion.div
+              className="bg-white rounded-xl shadow-sm overflow-hidden"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.6 }}
+            >
+              <button
+                onClick={() => setShowAlternatives(!showAlternatives)}
+                className="w-full px-8 py-6 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center">
+                  <div className="p-3 bg-blue-100 rounded-lg mr-4">
+                    <TrendingUp className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      Why Not the Other Options?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Compare AI analysis for all possible actions
+                    </p>
+                  </div>
+                </div>
+                <motion.div
+                  animate={{ rotate: showAlternatives ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="w-6 h-6 text-gray-400" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence>
+                {showAlternatives && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="px-8 pb-8 border-t border-gray-200">
+                      <div className="pt-6">
+                        <div className="flex items-center mb-6">
+                          <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                          <span className="text-sm font-medium text-gray-700">
+                            Chosen: <span className="capitalize text-green-600">{decision.action}</span> 
+                            {decision.destination && ` to ${decision.destination}`}
+                          </span>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {alternativeOptions.map((option, index) => (
+                            <motion.div
+                              key={option.action}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                              <AlternativeCard option={option} />
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                          <div className="flex items-start">
+                            <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                              <TrendingUp className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-blue-900 mb-1">AI Decision Logic</h4>
+                              <p className="text-sm text-blue-800">
+                                The AI weighted environmental impact (40%), profit potential (30%), 
+                                operational costs (20%), and market demand (10%) to determine the optimal action.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             {/* Next Steps */}
