@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingCart, Recycle, TrendingUp, Leaf, ArrowRight } from 'lucide-react';
-import { AIDecision } from '../types';
 import { mockAIDecisions } from '../data/mockData';
-import LoadingSpinner from '../components/LoadingSpinner';
 
-const AIDecisionPage: React.FC = () => {
+const AIDecisionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(true);
-  const [decision, setDecision] = useState<AIDecision | null>(null);
+  const [decision, setDecision] = useState(null);
   
   const { formData, decisionKey } = location.state || {};
 
@@ -28,7 +26,7 @@ const AIDecisionPage: React.FC = () => {
     }, 3000);
   }, [formData, decisionKey, navigate]);
 
-  const getActionIcon = (action: string) => {
+  const getActionIcon = (action) => {
     switch (action) {
       case 'donate': return Heart;
       case 'resell': return ShoppingCart;
@@ -37,7 +35,7 @@ const AIDecisionPage: React.FC = () => {
     }
   };
 
-  const getActionColor = (action: string) => {
+  const getActionColor = (action) => {
     switch (action) {
       case 'donate': return 'text-red-500';
       case 'resell': return 'text-green-500';
@@ -46,7 +44,7 @@ const AIDecisionPage: React.FC = () => {
     }
   };
 
-  const getActionBg = (action: string) => {
+  const getActionBg = (action) => {
     switch (action) {
       case 'donate': return 'bg-red-100';
       case 'resell': return 'bg-green-100';

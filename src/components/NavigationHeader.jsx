@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const NavigationHeader: React.FC = () => {
+const NavigationHeader = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 

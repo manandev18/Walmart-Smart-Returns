@@ -1,11 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface LoadingSpinnerProps {
-  message?: string;
-}
-
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ message = 'Processing...' }) => {
+const LoadingSpinner = ({ message = 'Processing...' }) => {
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <motion.div

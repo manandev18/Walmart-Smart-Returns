@@ -2,20 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Camera, Upload, Package, BarChart3, Settings } from 'lucide-react';
-import { ProductReturn } from '../types';
+import { ProductReturnDefaults } from '../types';
 import { productCategories } from '../data/mockData';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const ReturnFormPage: React.FC = () => {
+const ReturnFormPage = () => {
   const navigate = useNavigate();
   const [isUploading, setIsUploading] = useState(false);
-  const [formData, setFormData] = useState<ProductReturn>({
-    id: '',
-    category: '',
-    condition: 'like-new',
-    inventoryLevel: 'normal',
-    imageUploaded: false,
-    processed: false
+  const [formData, setFormData] = useState({
+    ...ProductReturnDefaults
   });
 
   const handleImageUpload = () => {
@@ -26,7 +21,7 @@ const ReturnFormPage: React.FC = () => {
     }, 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.imageUploaded || !formData.category) return;
     
@@ -142,7 +137,7 @@ const ReturnFormPage: React.FC = () => {
               </label>
               <select
                 value={formData.inventoryLevel}
-                onChange={(e) => setFormData(prev => ({ ...prev, inventoryLevel: e.target.value as any }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, inventoryLevel: e.target.value }))}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="low">Low Inventory</option>
@@ -182,7 +177,7 @@ const ReturnFormPage: React.FC = () => {
                       name="condition"
                       value={condition.value}
                       checked={formData.condition === condition.value}
-                      onChange={(e) => setFormData(prev => ({ ...prev, condition: e.target.value as any }))}
+                      onChange={(e) => setFormData(prev => ({ ...prev, condition: e.target.value }))}
                       className="sr-only"
                     />
                     <div className={`w-4 h-4 rounded-full border-2 mr-3 ${

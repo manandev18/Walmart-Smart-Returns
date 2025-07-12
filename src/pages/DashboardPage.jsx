@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import { TrendingUp, Heart, ShoppingCart, Recycle, Target, Plus } from 'lucide-react';
 import { mockImpactMetrics } from '../data/mockData';
 
-const DashboardPage: React.FC = () => {
+const DashboardPage = () => {
   const pieData = [
     { name: 'Resales', value: mockImpactMetrics.resalesCount, color: '#10B981' },
     { name: 'Donations', value: mockImpactMetrics.donationsCount, color: '#EF4444' },
