@@ -26,8 +26,12 @@ const NavigationHeader = () => {
               </Link>
             )}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">W</span>
+              <div className="w-10 h-10 flex items-center justify-center bg-white overflow-hidden">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdc1BPv6_Lup3QSF271X-hZZic3-5cumPIGQ&s"
+                  alt="Walmart Logo"
+                  className="w-8 h-8 object-contain"
+                />
               </div>
               <span className="text-xl font-bold text-gray-900">
                 Smart Returns
