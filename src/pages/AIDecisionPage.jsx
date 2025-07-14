@@ -31,9 +31,9 @@ const AIDecisionPage = () => {
         carbonSaved: 12.3,
         estimatedProfit: 0,
         operationalCost: 8,
-        reason: 'Lower carbon impact than chosen option',
-        score: 78,
-        status: 'good'
+        reason: 'Higher carbon impact than chosen option',
+        score: 65,
+        status: 'warning'
       },
       recycle: {
         carbonSaved: 15.2,

@@ -1,12 +1,13 @@
 export const productCategories = [
-  'Electronics',
-  'Clothing & Apparel', 
-  'Home & Garden',
+  'Electronics & Appliances',
+  'Clothing & Footwear', 
+  'Home & Kitchen Essentials',
+  'Grocery & Perishables',
   'Sports & Outdoors',
-  'Books & Media',
-  'Toys & Games',
-  'Health & Beauty',
-  'Automotive'
+  'Books, Stationery & Media',
+  'Toys & Baby Products',
+  'Health & Personal Care',
+  'Hardware & Tools'
 ];
 
 export const mockAIDecisions = {

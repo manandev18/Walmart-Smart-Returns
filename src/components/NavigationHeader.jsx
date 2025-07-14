@@ -28,7 +28,7 @@ const NavigationHeader = () => {
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 flex items-center justify-center bg-white overflow-hidden">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdc1BPv6_Lup3QSF271X-hZZic3-5cumPIGQ&s"
+                  src="/public/favicon.svg"
                   alt="Walmart Logo"
                   className="w-8 h-8 object-contain"
                 />

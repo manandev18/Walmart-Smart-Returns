@@ -249,7 +249,7 @@ const ReturnFormPage = () => {
     
     // Simulate AI analysis
     setTimeout(() => {
-      const conditions = ['like-new', 'minor-damage', 'unusable'];
+      const conditions = ['new', 'like-new', 'minor-damage', 'unusable'];
       const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
       
       setDetectedCondition(randomCondition);
