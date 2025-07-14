@@ -23,6 +23,11 @@ const ReturnFormPage = () => {
     ...ProductReturnDefaults
   });
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Request notification permission and then location access
   useEffect(() => {
     checkNotificationPermission();

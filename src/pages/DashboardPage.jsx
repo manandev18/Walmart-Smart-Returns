@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -6,6 +6,11 @@ import { TrendingUp, Heart, ShoppingCart, Recycle, Target, Plus } from 'lucide-r
 import { mockImpactMetrics } from '../data/mockData';
 
 const DashboardPage = () => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const pieData = [
     { name: 'Resales', value: mockImpactMetrics.resalesCount, color: '#10B981' },
     { name: 'Donations', value: mockImpactMetrics.donationsCount, color: '#EF4444' },

@@ -27,6 +27,11 @@ const AIDecisionPage = () => {
   
   const { formData, decisionKey } = location.state || {};
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Generate nearby entities based on AI decision and user's actual location
   const generateNearbyEntities = (aiDecision, userLat, userLng) => {
     // Convert distance in km to approximate latitude/longitude offset
