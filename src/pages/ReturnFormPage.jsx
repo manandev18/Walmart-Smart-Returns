@@ -58,7 +58,6 @@ const ReturnFormPage = () => {
         // Show notification about location request
         new Notification('Walmart Smart Returns', {
           body: 'Please allow location access to process your return request.',
-          icon: '/favicon.ico',
           requireInteraction: true
         });
 
@@ -106,8 +105,7 @@ const ReturnFormPage = () => {
         // Show success notification
         if (notificationPermission === 'granted') {
           new Notification('Location Access Granted', {
-            body: 'Your location has been successfully captured for return processing.',
-            icon: '/favicon.ico'
+            body: 'Your location has been successfully captured for return processing.'
           });
         }
       },
@@ -133,8 +131,7 @@ const ReturnFormPage = () => {
         // Show error notification
         if (notificationPermission === 'granted') {
           new Notification('Location Access Failed', {
-            body: errorMessage,
-            icon: '/favicon.ico'
+            body: errorMessage
           });
         }
       },
@@ -247,13 +244,12 @@ const ReturnFormPage = () => {
   const startAIAnalysis = (images) => {
     setIsAnalyzing(true);
     
-    // Simulate AI analysis
+    // Simulate AI analysis - hardcoded to always return 'like-new'
     setTimeout(() => {
-      const conditions = ['new', 'like-new', 'minor-damage', 'unusable'];
-      const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+      const hardcodedCondition = 'like-new';
       
-      setDetectedCondition(randomCondition);
-      setFormData(prev => ({ ...prev, condition: randomCondition, imageUploaded: true }));
+      setDetectedCondition(hardcodedCondition);
+      setFormData(prev => ({ ...prev, condition: hardcodedCondition, imageUploaded: true }));
       setAiAnalysisComplete(true);
       setIsAnalyzing(false);
     }, 3000);

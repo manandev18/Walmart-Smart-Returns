@@ -127,23 +127,23 @@ const AIDecisionPage = () => {
 
   // Mock alternative options data
   const generateAlternativeOptions = (chosenAction, condition) => {
-    const allActions = ['resell', 'donate', 'recycle', 'dispose', 'restock'];
+    const allActions = ['restock', 'donate', 'recycle', 'dispose']; // Reordered and removed resell since it's chosen
     const alternatives = allActions.filter(action => action !== chosenAction);
     
     const alternativeData = {
-      resell: {
-        carbonSaved: 8.5,
-        estimatedProfit: 45,
-        operationalCost: 12,
-        reason: condition === 'unusable' ? 'Product condition too poor for resale' : 'Market demand too low',
-        score: condition === 'like-new' ? 85 : condition === 'minor-damage' ? 65 : 25,
-        status: condition === 'like-new' ? 'good' : condition === 'minor-damage' ? 'warning' : 'poor'
+      restock: {
+        carbonSaved: 10.2,
+        estimatedProfit: 85,
+        operationalCost: 5,
+        reason: 'While inventory levels are normal, the carbon footprint from reverse logistics and quality validation exceeds the environmental benefits of the reselling route.',
+        score: 78,
+        status: 'warning'
       },
       donate: {
         carbonSaved: 12.3,
         estimatedProfit: 0,
         operationalCost: 8,
-        reason: 'Higher carbon impact than chosen option',
+        reason: 'Donation provides social impact but generates higher carbon emissions due to additional transportation and processing requirements compared to direct resale.',
         score: 65,
         status: 'warning'
       },
@@ -151,25 +151,17 @@ const AIDecisionPage = () => {
         carbonSaved: 15.2,
         estimatedProfit: 5,
         operationalCost: 15,
-        reason: 'Higher operational costs outweigh benefits',
+        reason: 'Material recovery is environmentally beneficial, however operational costs and processing complexities outweigh the economic advantages of resale.',
         score: 60,
         status: 'warning'
       },
       dispose: {
-        carbonSaved: 0,
+        carbonSaved: 25.7,
         estimatedProfit: 0,
         operationalCost: 25,
-        reason: 'Environmentally harmful, last resort only',
+        reason: 'Disposal to landfill represents the least sustainable option with zero environmental benefits and should only be considered as a last resort.',
         score: 15,
         status: 'poor'
-      },
-      restock: {
-        carbonSaved: 20.1,
-        estimatedProfit: 85,
-        operationalCost: 5,
-        reason: condition === 'like-new' ? 'Minimal quality issues detected' : 'Product condition below restock standards',
-        score: condition === 'like-new' ? 90 : 35,
-        status: condition === 'like-new' ? 'good' : 'poor'
       }
     };
 
@@ -292,7 +284,7 @@ const AIDecisionPage = () => {
 
     // Simulate AI processing time
     setTimeout(() => {
-      const aiDecision = mockAIDecisions[decisionKey] || mockAIDecisions['electronics-minor-damage-high'];
+      const aiDecision = mockAIDecisions[decisionKey] || mockAIDecisions['electronics-&-appliances-like-new-normal'];
       setDecision(aiDecision);
       setIsProcessing(false);
     }, 3000);
