@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* OpenLayers Map Styles */
+.ol-viewport {
+  border-radius: 0.75rem;
+}
+
+.ol-control {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 0.375rem !important;
+}
+
+.ol-zoom {
+  top: 10px !important;
+  left: 10px !important;
+}
+
+.ol-attribution {
+  bottom: 5px !important;
+  right: 5px !important;
+  font-size: 11px !important;
+}
