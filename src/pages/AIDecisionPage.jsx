@@ -73,8 +73,8 @@ const AIDecisionPage = () => {
     
     // Walmart Warehouses (Blue) - closest if restock is recommended
     const warehouseDistance = closestEntityType === 'warehouse' ? 0.8 : 3.2;
-    const warehouse1 = generateCoordinates(warehouseDistance, 45);
-    const warehouse2 = generateCoordinates(warehouseDistance + 0.4, 225);
+    const warehouse1 = generateCoordinates(warehouseDistance + 1, 145);
+    const warehouse2 = generateCoordinates(warehouseDistance + 0.4, 315);
     entities.push(
       { type: 'warehouse', name: 'Walmart Distribution Center', lat: warehouse1.lat, lng: warehouse1.lng, color: '#1E40AF', distance: warehouseDistance },
       { type: 'warehouse', name: 'Walmart Supercenter Hub', lat: warehouse2.lat, lng: warehouse2.lng, color: '#1E40AF', distance: warehouseDistance + 0.4 }
@@ -115,8 +115,8 @@ const AIDecisionPage = () => {
     
     // Disposal Sites (Gray) - closest if dispose is recommended (rarely)
     const disposalDistance = closestEntityType === 'disposal' ? 2.1 : 7.2;
-    const disposal1 = generateCoordinates(disposalDistance, 210);
-    const disposal2 = generateCoordinates(disposalDistance + 1.2, 315);
+    const disposal1 = generateCoordinates(disposalDistance + 1, 135);
+    const disposal2 = generateCoordinates(disposalDistance, 370);
     entities.push(
       { type: 'disposal', name: 'Waste Management Facility', lat: disposal1.lat, lng: disposal1.lng, color: '#6B7280', distance: disposalDistance },
       { type: 'disposal', name: 'Landfill Processing Center', lat: disposal2.lat, lng: disposal2.lng, color: '#6B7280', distance: disposalDistance + 1.2 }
