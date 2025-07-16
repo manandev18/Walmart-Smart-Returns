@@ -11,7 +11,10 @@
 Transforming every product return into an opportunity for environmental impact and operational efficiency, our intelligent platform analyzes returned products using computer vision and machine learning to determine the optimal disposition path: whether it's resale, donation, recycling, or restocking.
 
 ---
+## **System Architecture**
+<img width="4856" height="2421" alt="Untitled-2025-07-16-1655" src="https://github.com/user-attachments/assets/7fccf9fc-6667-48af-b7d9-a86eb2f6143e" />
 
+---
 ## 🚀 **Key Features**
 
 ### 🤖 **AI-Powered Analysis**
